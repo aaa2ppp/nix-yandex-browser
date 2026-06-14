@@ -25,6 +25,7 @@
           permittedInsecurePackages = [
             (getName stableFile)
             (getName betaFile)
+            "electron-39.8.10"
           ];
         };
       };
