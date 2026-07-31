@@ -61,6 +61,7 @@
   version,
   sha256,
   extensions ? [ ],
+  debDir ? null,
 }:
 
 let
@@ -119,11 +120,22 @@ let
   browser = stdenv.mkDerivation rec {
     inherit pname version;
 
-    src = fetchurl {
-      url = "http://repo.yandex.ru/yandex-browser/deb/pool/main/y/${pname}/${pname}_${version}_amd64.deb";
-      sha256 = sha256;
-    };
-
+  # Функция поиска .deb файла по pname и version
+  src = 
+    if debDir != null then
+      let
+        debFile = "${debDir}/${pname}/${pname}_${version}_amd64.deb";
+      in
+        if builtins.pathExists debFile then
+          debFile
+        else
+          builtins.throw "Local .deb file not found: ${debFile}"
+    else
+      fetchurl {
+        url = "http://repo.yandex.ru/yandex-browser/deb/pool/main/y/${pname}/${pname}_${version}_amd64.deb";
+        sha256 = sha256;
+      };
+            
     nativeBuildInputs = [
       autoPatchelfHook
       wrapGAppsHook

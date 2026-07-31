@@ -8,6 +8,8 @@
   outputs = { nixpkgs, ... }:
 
     let
+      # Берем из переменной окружения, если нет — null
+      debDir = builtins.getEnv "NIX_YANDEX_DEB_DIR";
 
       stableFile = ./json/yandex-browser-stable.json;
       betaFile = ./json/yandex-browser-beta.json;
@@ -34,9 +36,15 @@
         beautifulsoup4
       ]);
 
+      # Функция создания пакета
+      makePackage = info: 
+        pkgs.callPackage ./package (info // { 
+          debDir = if debDir == "" then null else debDir;
+        });
+
       packages = {
-        yandex-browser-beta = pkgs.callPackage ./package (getInfo betaFile);
-        yandex-browser-stable = pkgs.callPackage ./package (getInfo stableFile);
+        yandex-browser-stable = makePackage (getInfo stableFile);
+        yandex-browser-beta = makePackage (getInfo betaFile);
       };
 
     in

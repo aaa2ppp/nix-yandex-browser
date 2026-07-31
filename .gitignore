@@ -1,1 +1,11 @@
+.*
 /.direnv/
+!.gitignore
+!.github/
+tmp/
+bak/
+bak[0-9]/
+deb/
+*.bak
+*.bak[0-9]
+*.tmp

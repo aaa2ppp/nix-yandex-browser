@@ -1,1 +1,5 @@
-{"pname": "yandex-browser-stable", "version": "26.6.1.1003-1", "sha256": "740006518ea877303b70a69e063dcc8531fe05b4d1582f270b783e22a83cf852"}
+{
+  "pname": "yandex-browser-stable",
+  "version": "26.6.1.1003-1",
+  "sha256": "740006518ea877303b70a69e063dcc8531fe05b4d1582f270b783e22a83cf852"
+}
