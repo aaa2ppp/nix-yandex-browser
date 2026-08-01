@@ -11,7 +11,7 @@ VENV_DIR := .venv
 PYTHON   := source $(VENV_DIR)/bin/activate; python3
 PIP      := source $(VENV_DIR)/bin/activate; pip
 DEB_DIR  := ./deb
-SCRIPTS  := update
+SCRIPTS  := scripts
 UPDATE   := $(PYTHON) $(SCRIPTS)/update.py
 
 $(TMP_DIR):
