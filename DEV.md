@@ -145,3 +145,19 @@ nix-store --gc
 - The `deb/` folder is your archive — keep it safe
 - `deb.log` is the source of truth for version tracking
 - JSON files are generated from local `.deb` files, not from `deb.log` directly
+
+
+## Known Issues
+
+### VSCode automatic venv activation
+
+VSCode may automatically activate the `.venv` virtual environment when it detects it. This can restart the terminal **during** long-running commands (like `make update-packages`), interrupting the process.
+
+**Recommendation:** Manually activate the virtual environment before running any commands:
+
+```bash
+make venv
+source .venv/bin/activate
+```
+
+Then run `make update-packages` or other commands from the same terminal. This prevents VSCode from interfering.

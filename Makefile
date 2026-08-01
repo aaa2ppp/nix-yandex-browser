@@ -8,9 +8,11 @@ MERGE_EXCLUDE := ! -path '$(TMP_DIR)/*' ! -path './deb/*' ! -path './.git*'
 .DEFAULT_GOAL := help
 
 VENV_DIR := .venv
-PYTHON   := $(VENV_DIR)/bin/python3
-PIP      := $(VENV_DIR)/bin/pip
+PYTHON   := source $(VENV_DIR)/bin/activate; python3
+PIP      := source $(VENV_DIR)/bin/activate; pip
 DEB_DIR  := ./deb
+SCRIPTS  := update
+UPDATE   := $(PYTHON) $(SCRIPTS)/update.py
 
 $(TMP_DIR):
 	mkdir -p $(TMP_DIR)
@@ -30,27 +32,31 @@ help:
 	@echo ""
 	@echo "⚠️  No delete deb-packages! Yandex doesn't keep old versions."
 
-venv: $(VENV_DIR)/bin/activate
+venv: .create-venv-done .pip-install-done
 
-$(VENV_DIR)/bin/activate: update/requirements.txt
+.create-venv-done:
 	@echo "Creating python virtual environment..."
 	@python3 -m venv $(VENV_DIR)
-	@$(PIP) install -r update/requirements.txt
+	@touch $@
+
+.pip-install-done: .create-venv-done $(SCRIPTS)/requirements.txt
+	@$(PIP) install -r $(SCRIPTS)/requirements.txt
+	@touch $@
 
 update-all: venv
-	@$(PYTHON) update/update.py all
+	@$(UPDATE) all
 
 update-deb-log: venv
-	@$(PYTHON) update/update.py deb-log
+	@$(UPDATE) deb-log
 
 update-packages: venv
-	@$(PYTHON) update/update.py packages
+	@$(UPDATE) packages
 
 update-json: venv
-	@$(PYTHON) update/update.py json
+	@$(UPDATE) json
 
 update-status: venv
-	@$(PYTHON) update/update.py status
+	@$(UPDATE) status
 
 install-local:
 	@echo "Installing from local dir..."
