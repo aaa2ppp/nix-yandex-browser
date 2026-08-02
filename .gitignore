@@ -9,3 +9,4 @@ deb/
 *.bak
 *.bak[0-9]
 *.tmp
+/db/

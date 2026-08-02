@@ -1,5 +1,22 @@
 # Yandex Browser for NixOS
 
+**Don't use it!**
+
+**Use this instead:** https://github.com/miuirussia/yandex-browser.nix
+
+If you see it in the output:
+
+```
+[... ERROR:wayland_surface_factory.cc:252] '--ozone-platform=wayland' is not compatible with Vulkan. Consider switching to '--ozone-platform=x11' or disabling Vulkan
+```
+
+Try these flags:
+```sh
+yandex-browser-stable --ozone-platform=wayland --disable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan --use-webgpu-adapter=opengles
+```
+
+---
+
 With automatic hash updates, I hope.
 
 * `yandex-browser-stable` provides the `yandex-browser` executable
